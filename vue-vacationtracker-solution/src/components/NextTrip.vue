@@ -1,20 +1,24 @@
 <template>
 	<div class="trip-container">
-		<div class="left">
+		<div class="info">
 			<h2>Your next trip!</h2>
 
 			<br />
 			<h4>
 				<i class="fas fa-map-marker-alt"></i
-				><span class="spacing">{{ task.location }}</span>
+				><span class="spacing">{{
+					task && task.location ? task.location : '-'
+				}}</span>
 			</h4>
 			<h4>
 				<i class="far fa-calendar-alt"></i
-				><span class="spacing">{{ formatDate(task.day) }}</span>
+				><span class="spacing">{{
+					task && task.location ? formatDate(task.day) : '-'
+				}}</span>
 			</h4>
 		</div>
-		<div class="right">
-			<p>{{ timeRemaining }}</p>
+		<div class="timer">
+			<p>{{ timeRemaining ? timeRemaining : `0d : 0h 0m 0s` }}</p>
 		</div>
 	</div>
 
@@ -27,8 +31,8 @@ import moment from 'moment';
 export default {
 	data() {
 		return {
-			targetDate: '2023-03-15', // replace with your target date
 			timeRemaining: '',
+			timerId: null,
 		};
 	},
 	props: {
@@ -55,48 +59,34 @@ export default {
 			const formattedDate = `${weekday}, ${month} ${day} ${year}`;
 			return formattedDate;
 		},
-	},
-	created() {
-		setInterval(() => {
+		calculateTimeRemaining() {
 			const now = moment();
 			const target = moment(this.task.day);
 			const diff = target.diff(now, 'seconds');
 			const duration = moment.duration(diff, 'seconds');
-			this.timeRemaining = moment
-				.utc(duration.asMilliseconds())
-				.format('HH:mm:ss');
-		}, 1000);
+
+			const days = Math.floor(duration.asDays());
+			const hours = duration.hours();
+			const minutes = duration.minutes();
+			const seconds = duration.seconds();
+
+			this.timeRemaining = `${days}d : ${hours}h ${minutes}m ${seconds}s`;
+		},
+	},
+	created() {
+		//Check task is defined and make sure day is defined
+		if (!!this.task) {
+			//Show timing immediatly after page loads
+			this.calculateTimeRemaining();
+
+			this.timerId = setInterval(() => {
+				this.calculateTimeRemaining();
+			}, 1000);
+		}
+	},
+	beforeDestroy() {
+		// clear the timer when component is destroyed
+		clearInterval(this.timerId);
 	},
 };
 </script>
-
-<style scoped>
-h3 {
-	color: green;
-}
-
-.trip-container {
-	border-left: solid #000 1px;
-	padding-left: 5%;
-	height: auto;
-
-	display: flex;
-	flex-direction: row;
-}
-
-.right {
-	margin: 0 auto;
-	padding-top: 9%;
-	font-size: 1.75em;
-	font-weight: 900;
-	flex: 3;
-}
-
-.left {
-	flex: 7;
-}
-
-.spacing {
-	padding-left: 3%;
-}
-</style>

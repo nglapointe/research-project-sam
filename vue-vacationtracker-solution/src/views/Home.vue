@@ -13,7 +13,6 @@
 import Tasks from '../components/Tasks';
 import AddTask from '../components/AddTask';
 import NextTrip from '../components/NextTrip.vue';
-import moment from 'moment';
 
 export default {
 	name: 'Home',
@@ -45,6 +44,9 @@ export default {
 
 			this.task = [...this.task, data];
 			this.task.sort((a, b) => new Date(a.day) - new Date(b.day));
+
+			//Set the next trip
+			this.setNextTripObject(this.task, new Date());
 		},
 		async deleteTask(id) {
 			if (confirm('Are you sure?')) {
@@ -52,9 +54,13 @@ export default {
 					method: 'DELETE',
 				});
 
-				res.status === 200
-					? (this.task = this.task.filter((task) => task.id !== id))
-					: alert('Error deleting tasl');
+				if (res.status === 200) {
+					this.task = this.task.filter((task) => task.id !== id);
+
+					await this.fetchTasks();
+				} else {
+					alert('Error deleting task');
+				}
 			}
 		},
 		async toggleReminder(id) {
@@ -82,13 +88,8 @@ export default {
 			const res = await fetch('http://localhost:5000/tasks');
 			const data = await res.json();
 
-			// sort tasks by due date in ascending order
 			data.sort((a, b) => new Date(a.day) - new Date(b.day));
-
-			// set the next trip
-			const currentDate = new Date();
-			const closestTask = data.find((task) => new Date(task.day) > currentDate);
-			this.nextTrip = closestTask;
+			this.setNextTripObject(data, new Date());
 
 			return data;
 		},
@@ -117,6 +118,10 @@ export default {
 				}
 			}
 		},
+		setNextTripObject(data, currentDate) {
+			const closestTask = data.find((task) => new Date(task.day) > currentDate);
+			this.nextTrip = closestTask;
+		},
 	},
 	async created() {
 		this.task = await this.fetchTasks();
@@ -128,15 +133,4 @@ export default {
 };
 </script>
 
-<style scoped>
-.right {
-	flex-basis: 40%; /* set width of each element */
-	height: 900px;
-}
-
-.left {
-	flex-basis: 60%;
-	height: 900px;
-	padding-left: 5%;
-}
-</style>
+<style scoped></style>

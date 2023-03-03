@@ -1,5 +1,5 @@
 <template>
-	<div v-if="tasks.length > 0">
+	<div v-if="tasks.length > 0" class="list">
 		<div :key="task.id" v-for="task in tasks">
 			<Task
 				@toggle-reminder="$emit('toggle-reminder', task.id)"
@@ -8,7 +8,10 @@
 			/>
 		</div>
 	</div>
-	<h2 v-else>You have no existing trip booked!</h2>
+
+	<div v-else class="list">
+		<h2 class="error">You have no existing trip booked!</h2>
+	</div>
 </template>
 
 <script>
@@ -25,11 +28,3 @@ export default {
 	emits: ['delete-task', 'toggle-reminder'],
 };
 </script>
-
-<style scoped>
-h2 {
-	padding-left: 15%;
-	padding-top: 5%;
-	color: red;
-}
-</style>

@@ -1,0 +1,122 @@
+* {
+	box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+}
+
+body {
+	font-family: 'Poppins', sans-serif;
+	background-color: whitesmoke;
+}
+
+.container {
+	max-width: 95%;
+	margin: auto;
+	overflow: auto;
+	height: auto;
+	padding: 30px;
+	border-radius: 5px;
+	background-color: whitesmoke;
+	display: flex;
+	flex-direction: column;
+	padding-top: 8%;
+}
+
+.btn {
+	display: inline-block;
+	background: #000;
+	color: #fff;
+	border: none;
+	padding: 10px 20px;
+	margin: 5px;
+	border-radius: 5px;
+	cursor: pointer;
+	text-decoration: none;
+	font-size: 15px;
+	font-family: inherit;
+}
+
+.btn:focus {
+	outline: none;
+}
+
+.btn:active {
+	transform: scale(0.98);
+}
+
+.btn-block {
+	display: block;
+	width: 100%;
+}
+
+header {
+	width: 100%;
+	height: 75px;
+	background-color: white;
+	position: fixed;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+	display: flex;
+	align-items: center;
+	float: left;
+	padding-left: 2%;
+}
+
+a {
+	padding-left: 5%;
+	text-decoration: none;
+	color: black;
+	font-size: 1.25em;
+	font-weight: 400;
+}
+
+img {
+	border-radius: 50%;
+	border: 5px #333 solid;
+	margin-bottom: 1rem;
+	width: 50%;
+}
+
+.user-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-top: 5%;
+	width: 275px;
+	height: 400px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.users-container {
+	display: flex;
+	flex-direction: row;
+	gap: 20px;
+}
+
+.male {
+	border-color: steelblue;
+	background-color: steelblue;
+}
+
+.female {
+	border-color: pink;
+	background-color: pink;
+	color: #333;
+}
+
+.count {
+	padding-bottom: 3%;
+}
+
+.no-count {
+	padding-bottom: 3%;
+	color: red;
+}
+
+.user-info {
+	width: 90%;
+}
+
+th {
+	float: left;
+}

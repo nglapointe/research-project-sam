@@ -1,0 +1,15 @@
+{
+  "friends": [
+    {
+      "firstName": "Arthur",
+      "lastName": "Chan",
+      "gender": "male",
+      "country": "Canada",
+      "email": "arthur.chan@example.com",
+      "age": 71,
+      "phone": "N89 L25-4183",
+      "photo": "https://randomuser.me/api/portraits/men/7.jpg",
+      "id": 1
+    }
+  ]
+}

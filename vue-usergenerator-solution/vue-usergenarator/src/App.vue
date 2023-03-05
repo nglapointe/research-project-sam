@@ -1,5 +1,5 @@
 <template>
-	<Header title=".friend-Io" />
+	<Header title="FriendsToGo" />
 	<div class="container">
 		<router-view :generateUser="getUser"></router-view>
 	</div>

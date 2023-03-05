@@ -1,43 +1,63 @@
 <template>
 	<div>
+		<div class="input-container">
+			<div class="get-user-input">
+				<input type="number" max="15" min="0" v-model="num" />
+				<Button @click="getUsers" text="Find new friends!" color="green" />
+			</div>
+		</div>
+		<br />
+
 		<p class="count">
-			Found <strong>{{ count }}</strong> potential friends!
+			<strong>{{ count }}</strong> potential friends!
 		</p>
-		<button @click="getUsers">Get Users</button>
-		<Users :users="users" @add-friend="addFriend" />
+
+		<div class="display-users-container">
+			<Users :users="users" @add-friend="addFriend" />
+		</div>
 	</div>
 </template>
 
 <script>
 import Users from '../components/Users.vue';
+import Button from '../components/Button.vue';
 
 export default {
 	name: 'HomeView',
 	components: {
 		Users,
+		Button,
 	},
 	data() {
 		return {
 			users: [],
+			profilePics: [],
 			count: 0,
 		};
 	},
 	methods: {
 		async getUsers() {
-			//Using the random user api to fecth random user to display
-			//Because of this, async must be placed
 			this.users = [];
+			this.getFriendsProfilePic();
 
-			const res = await fetch('https://randomuser.me/api?results=10');
-			const { results } = await res.json();
+			//Loop until 10 users with unique profilePics are set
+			for (let i = 0; i < this.num; i++) {
+				const res = await fetch('https://randomuser.me/api');
+				const { results } = await res.json();
 
-			this.users.push(...results);
+				//Only add the user if their profile picture is not in the profilePics array
+				if (!this.profilePics.some((pic) => pic === results[0].picture.large)) {
+					this.users.push(results[0]);
+				} else {
+					i--;
+				}
+			}
 
-			//Using the array (json) that is returned, displau random information for fetched user
+			// Set the count property to the length of the users array
 			this.count = this.users.length;
 		},
 		async addFriend(newFriend) {
-			const res = await fetch('http://localhost:5000/friends', {
+			await fetch('http://localhost:5000/friends', {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json',
@@ -45,14 +65,26 @@ export default {
 				body: JSON.stringify(newFriend),
 			});
 
+			//Remove the user from the user list
+			const addedUser = this.users.findIndex(
+				(user) => user.picture.large === newFriend.photo
+			);
+
+			if (addedUser !== -1) {
+				this.users.splice(addedUser, 1);
+			}
+
+			this.count = this.users.length;
+		},
+		async getFriendsProfilePic() {
+			const res = await fetch('http://localhost:5000/friends');
 			const data = await res.json();
 
-			//Add the friends to the list
-			this.friends = [...this.friends, data];
+			this.profilePics = data.map((friend) => friend.photo);
 		},
 	},
 	async created() {
-		this.getUsers();
+		this.getFriendsProfilePic();
 	},
 };
 </script>

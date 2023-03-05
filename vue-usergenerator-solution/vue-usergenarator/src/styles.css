@@ -19,7 +19,7 @@ body {
 	background-color: whitesmoke;
 	display: flex;
 	flex-direction: column;
-	padding-top: 8%;
+	padding-top: 100px;
 }
 
 .btn {
@@ -27,7 +27,7 @@ body {
 	background: #000;
 	color: #fff;
 	border: none;
-	padding: 10px 20px;
+	padding: 6.5px 13px;
 	margin: 5px;
 	border-radius: 5px;
 	cursor: pointer;
@@ -61,6 +61,10 @@ header {
 	padding-left: 2%;
 }
 
+.get-user-input input {
+	font-size: 1.3em;
+}
+
 a {
 	padding-left: 5%;
 	text-decoration: none;
@@ -91,6 +95,14 @@ img {
 	display: flex;
 	flex-direction: row;
 	gap: 20px;
+	padding: 1% 2% 2% 1%;
+}
+
+.friends-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	padding-top: 2%;
 }
 
 .male {
@@ -105,7 +117,7 @@ img {
 }
 
 .count {
-	padding-bottom: 3%;
+	padding-bottom: 1%;
 }
 
 .no-count {
@@ -117,6 +129,28 @@ img {
 	width: 90%;
 }
 
+.friend-info {
+	width: 90%;
+}
+
 th {
 	float: left;
+}
+
+.fas {
+	display: flex;
+	color: red;
+	font-size: 1.25em;
+	padding-bottom: 2%;
+	padding-left: 225px;
+}
+
+.input-container,
+.display-users-container {
+	display: flex;
+	overflow-x: auto;
+}
+
+.display-users-container {
+	margin-bottom: 0;
 }

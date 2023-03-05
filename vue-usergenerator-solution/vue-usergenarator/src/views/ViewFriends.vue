@@ -1,11 +1,11 @@
 <template>
-	<p class="count" v-if="count > 0">
+	<p v-if="count <= 0" class="no-count">You currently have no friends!</p>
+	<p class="count" v-else>
 		You have <strong>{{ count }}</strong> friends! You have access to their
 		contact information, start convertions!
 	</p>
-	<p v-else class="no-count">You currently have no friends!</p>
 
-	<Friends :friends="friends" />
+	<Friends :friends="friends" @delete-friend="deleteFriend" />
 </template>
 
 <script>
@@ -33,11 +33,26 @@ export default {
 
 			this.count = data.length;
 
-			return data;
+			this.friends = data;
+		},
+		async deleteFriend(id) {
+			if (confirm('Are you sure?')) {
+				const res = await fetch(`http://localhost:5000/friends/${id}`, {
+					method: 'DELETE',
+				});
+
+				if (res.status === 200) {
+					this.friends = this.friends.filter((friend) => friend.id !== id);
+
+					await this.getFriends();
+				} else {
+					alert('Error deleting task');
+				}
+			}
 		},
 	},
 	async created() {
-		this.friends = await this.getFriends();
+		await this.getFriends();
 	},
 };
 </script>

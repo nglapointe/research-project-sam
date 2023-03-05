@@ -1,14 +1,14 @@
 {
   "friends": [
     {
-      "firstName": "Arthur",
-      "lastName": "Chan",
-      "gender": "male",
-      "country": "Canada",
-      "email": "arthur.chan@example.com",
-      "age": 71,
-      "phone": "N89 L25-4183",
-      "photo": "https://randomuser.me/api/portraits/men/7.jpg",
+      "firstName": "Lori",
+      "lastName": "Olson",
+      "gender": "female",
+      "country": "United States",
+      "email": "lori.olson@example.com",
+      "age": 50,
+      "phone": "(900) 389-7106",
+      "photo": "https://randomuser.me/api/portraits/women/14.jpg",
       "id": 1
     }
   ]

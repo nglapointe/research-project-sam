@@ -1,5 +1,6 @@
 <template>
 	<div class="user-container">
+		<i @click="$emit('delete-friend')" class="fas fa-times"></i>
 		<img
 			:class="`${friend.gender}`"
 			v-bind:src="`${friend.photo}`"
@@ -8,7 +9,7 @@
 		<h4>{{ friend.firstName }} {{ friend.lastName }}</h4>
 		<br /><br />
 
-		<div class="user-info">
+		<div class="friend-info">
 			<table>
 				<tr>
 					<th>Location:</th>
@@ -29,24 +30,15 @@
 			</table>
 		</div>
 
-		<br />
-		<form @submit="onSubmit">
-			<input type="hidden" :value="friend.id" />
-			<Button text="Remove Friend" bcolor="black" color="red" type="submit" />
-		</form>
+		<br /><br /><br />
 	</div>
 </template>
 
 <script>
-import Button from '../components/Button.vue';
-
 export default {
 	name: 'FriendCard',
 	props: {
 		friend: Object,
-	},
-	components: {
-		Button,
 	},
 };
 </script>

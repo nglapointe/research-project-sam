@@ -1,7 +1,10 @@
 <template>
-	<div class="users-container">
+	<div class="friends-container">
 		<div :key="friend.id" v-for="friend in friends">
-			<Friend :friend="friend" />
+			<Friend
+				:friend="friend"
+				@delete-friend="$emit('delete-friend', friend.id)"
+			/>
 		</div>
 	</div>
 </template>

@@ -1,0 +1,26 @@
+{
+  "friends": [
+    {
+      "firstName": "Lori",
+      "lastName": "Olson",
+      "gender": "female",
+      "country": "United States",
+      "email": "lori.olson@example.com",
+      "age": 50,
+      "phone": "(900) 389-7106",
+      "photo": "https://randomuser.me/api/portraits/women/14.jpg",
+      "id": 1
+    },
+    {
+      "firstName": "Hailey",
+      "lastName": "Vargas",
+      "gender": "female",
+      "country": "Australia",
+      "email": "hailey.vargas@example.com",
+      "age": 22,
+      "phone": "01-7162-9918",
+      "photo": "https://randomuser.me/api/portraits/women/30.jpg",
+      "id": 2
+    }
+  ]
+}

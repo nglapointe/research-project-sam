@@ -1,15 +1,3 @@
 {
-  "friends": [
-    {
-      "firstName": "Lori",
-      "lastName": "Olson",
-      "gender": "female",
-      "country": "United States",
-      "email": "lori.olson@example.com",
-      "age": 50,
-      "phone": "(900) 389-7106",
-      "photo": "https://randomuser.me/api/portraits/women/14.jpg",
-      "id": 1
-    }
-  ]
+  "friends": []
 }

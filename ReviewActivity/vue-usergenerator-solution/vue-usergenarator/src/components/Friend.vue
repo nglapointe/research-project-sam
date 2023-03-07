@@ -1,5 +1,5 @@
 <template>
-	<div class="friend-container">
+	<div class="user-container">
 		<i @click="$emit('delete-friend')" class="fas fa-times"></i>
 		<img
 			:class="`${friend.gender}`"
@@ -12,19 +12,17 @@
 		<div class="friend-info">
 			<table>
 				<tr>
-					<th>Country:</th>
+					<th>Location:</th>
 					<td>{{ friend.country }}</td>
 				</tr>
 				<tr>
 					<th>Age:</th>
 					<td>{{ friend.age }}</td>
 				</tr>
-				<br />
 				<tr>
 					<th>Email:</th>
 					<td>{{ friend.email }}</td>
 				</tr>
-				<br />
 				<tr>
 					<th>Phone:</th>
 					<td>{{ friend.phone }}</td>

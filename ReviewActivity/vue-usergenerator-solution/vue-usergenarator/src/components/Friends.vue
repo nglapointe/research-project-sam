@@ -3,9 +3,7 @@
 		<div :key="friend.id" v-for="friend in friends">
 			<Friend
 				:friend="friend"
-				@delete-friend="
-					$emit('delete-friend', friend.id, friend.firstName, friend.lastName)
-				"
+				@delete-friend="$emit('delete-friend', friend.id)"
 			/>
 		</div>
 	</div>

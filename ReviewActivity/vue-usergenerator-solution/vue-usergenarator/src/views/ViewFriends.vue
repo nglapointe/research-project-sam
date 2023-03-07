@@ -35,8 +35,8 @@ export default {
 
 			this.friends = data;
 		},
-		async deleteFriend(id, firstName, lastName) {
-			if (confirm(`Are you sure you want to remove ${firstName} ${lastName}`)) {
+		async deleteFriend(id) {
+			if (confirm('Are you sure?')) {
 				const res = await fetch(`http://localhost:5000/friends/${id}`, {
 					method: 'DELETE',
 				});

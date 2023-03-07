@@ -105,17 +105,6 @@ img {
 	padding-top: 2%;
 }
 
-.friend-container {
-	display: flex;
-	flex-direction: column;
-	justify-content: center;
-	align-items: center;
-	padding-top: 5%;
-	width: 275px;
-	height: 440px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
-
 .male {
 	border-color: steelblue;
 	background-color: steelblue;
@@ -144,12 +133,6 @@ img {
 	width: 90%;
 }
 
-.friend-info table {
-	display: flex;
-	flex-direction: column;
-	width: 100%;
-}
-
 th {
 	float: left;
 }
@@ -158,7 +141,7 @@ th {
 	display: flex;
 	color: red;
 	font-size: 1.25em;
-	padding-bottom: 1%;
+	padding-bottom: 2%;
 	padding-left: 225px;
 }
 
@@ -170,9 +153,4 @@ th {
 
 .display-users-container {
 	margin-bottom: 0;
-}
-
-.error {
-	color: red;
-	font-weight: bold;
 }

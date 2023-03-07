@@ -77,6 +77,7 @@ export default {
 			};
 
 			this.$emit('add-trip', newTrip);
+
 			this.resetForm();
 		},
 		validateForm() {

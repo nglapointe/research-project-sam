@@ -8,17 +8,9 @@
 		</div>
 		<br />
 
-		<div>
-			<p class="count" v-if="!this.errorMsg && this.count">
-				<strong>{{ count }}</strong> potential friends!
-			</p>
-
-			<p v-else-if="this.errorMsg || this.errorMsg == null" class="error">
-				{{ errorMsg }}
-			</p>
-
-			<p v-else class="count">Enter a number of friends to want to fecth!</p>
-		</div>
+		<p class="count">
+			<strong>{{ count }}</strong> potential friends!
+		</p>
 
 		<div class="display-users-container">
 			<Users :users="users" @add-friend="addFriend" />
@@ -41,19 +33,12 @@ export default {
 			users: [],
 			profilePics: [],
 			count: 0,
-
-			errorMsg: '',
 		};
 	},
 	methods: {
 		async getUsers() {
 			this.users = [];
 			this.getFriendsProfilePic();
-
-			if (this.num <= 0 || this.num > 15 || this.num == null) {
-				this.errorMsg = 'You must keep the amount of friends search to 1 - 15';
-				return;
-			}
 
 			//Loop until 10 users with unique profilePics are set
 			for (let i = 0; i < this.num; i++) {
@@ -70,7 +55,6 @@ export default {
 
 			// Set the count property to the length of the users array
 			this.count = this.users.length;
-			this.errorMsg = '';
 		},
 		async addFriend(newFriend) {
 			await fetch('http://localhost:5000/friends', {

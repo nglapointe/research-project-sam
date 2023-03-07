@@ -7,18 +7,18 @@
 			<h4>
 				<i class="fas fa-map-marker-alt"></i
 				><span class="spacing">{{
-					task && task.location ? task.location : '-'
+					trip && trip.location ? trip.location : '-'
 				}}</span>
 			</h4>
 			<h4>
 				<i class="far fa-calendar-alt"></i
 				><span class="spacing">{{
-					task && task.location ? formatDate(task.day) : '-'
+					trip && trip.location ? formatDate(trip.day) : '-'
 				}}</span>
 			</h4>
 		</div>
 		<div class="timer">
-			<p>{{ timeRemaining ? timeRemaining : `0d : 0h 0m 0s` }}</p>
+			<p>{{ timeRemaining }}</p>
 		</div>
 	</div>
 
@@ -36,11 +36,13 @@ export default {
 		};
 	},
 	props: {
-		task: Object,
+		trip: Object,
 	},
 	methods: {
 		formatDate(date) {
 			const tripDate = new Date(date);
+			tripDate.setDate(tripDate.getDate() + 1);
+
 			const weekday = tripDate.toLocaleString('default', { weekday: 'long' });
 			const month = tripDate.toLocaleString('default', { month: 'long' });
 			let day = tripDate.toLocaleString('default', { day: 'numeric' });
@@ -61,7 +63,7 @@ export default {
 		},
 		calculateTimeRemaining() {
 			const now = moment();
-			const target = moment(this.task.day);
+			const target = moment(this.trip.day);
 			const diff = target.diff(now, 'seconds');
 			const duration = moment.duration(diff, 'seconds');
 
@@ -75,7 +77,7 @@ export default {
 	},
 	created() {
 		//Check task is defined and make sure day is defined
-		if (!!this.task) {
+		if (this.trip != null && !!this.trip.day) {
 			//Show timing immediatly after page loads
 			this.calculateTimeRemaining();
 
@@ -84,9 +86,31 @@ export default {
 			}, 1000);
 		}
 	},
-	beforeDestroy() {
-		// clear the timer when component is destroyed
-		clearInterval(this.timerId);
+	watch: {
+		trip: {
+			handler: function (trip) {
+				if (trip === null || trip.day === undefined) {
+					clearInterval(this.timerId);
+					this.timeRemaining = `0d : 0h 0m 0s`;
+				} else {
+					this.calculateTimeRemaining();
+
+					//Check to see if a interval is created
+					if (this.timerId === null) {
+						this.timerId = setInterval(() => {
+							this.calculateTimeRemaining();
+						}, 1000);
+					}
+				}
+			},
+			deep: true,
+		},
+		beforeDestroy() {
+			// clear the timer when component is destroyed
+			if (this.timeId !== null) {
+				clearInterval(this.timerId);
+			}
+		},
 	},
 };
 </script>

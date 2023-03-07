@@ -3,9 +3,9 @@
 		<h1>{{ title }}</h1>
 		<Button
 			v-show="homePage"
-			@btn-click="$emit('toggle-add-task')"
-			:text="showAddTask ? 'Close' : 'Add Trip'"
-			:color="showAddTask ? 'red' : 'green'"
+			@btn-click="$emit('toggle-add-trip')"
+			:text="showAddTrip ? 'Close' : 'Add Trip'"
+			:color="showAddTrip ? 'red' : 'green'"
 		/>
 	</header>
 </template>
@@ -17,7 +17,7 @@ export default {
 	name: 'Header',
 	props: {
 		title: String,
-		showAddTask: Boolean,
+		showAddTrip: Boolean,
 	},
 	components: {
 		Button,

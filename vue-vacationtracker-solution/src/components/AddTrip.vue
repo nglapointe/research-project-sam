@@ -1,5 +1,9 @@
 <template>
 	<form @submit="onSubmit" class="add-form">
+		<p class="error">
+			{{ this.errorMsg != '' ? 'ERROR: ' + this.errorMsg : null }}
+		</p>
+
 		<div class="form-control">
 			<label>Name</label>
 			<input
@@ -43,7 +47,7 @@
 
 <script>
 export default {
-	name: 'AddTask',
+	name: 'AddTrip',
 	data() {
 		return {
 			name: '',
@@ -51,28 +55,55 @@ export default {
 			why: '',
 			day: '',
 			bookedFlight: false,
+
+			errorMsg: '',
 		};
 	},
 	methods: {
 		onSubmit(e) {
 			e.preventDefault();
 
-			if (!this.name) {
-				alert('Please add a task');
+			this.validateForm();
+			if (this.errorMsg != '') {
 				return;
 			}
 
 			const newTrip = {
-				//id: Math.floor(Math.random() * 100),
 				name: this.name,
 				location: this.location,
-				why: this.why,
+				why: this.why ? this.why : undefined,
 				day: this.day,
 				bookedFlight: this.bookedFlight,
 			};
 
-			this.$emit('add-task', newTrip);
+			this.$emit('add-trip', newTrip);
+			this.resetForm();
+		},
+		validateForm() {
+			if (!this.name) {
+				this.errorMsg = 'Enter a name for the trip';
+				return;
+			}
 
+			if (!this.location) {
+				this.errorMsg = 'Enter a location for the trip';
+				return;
+			}
+
+			//Date Validation
+			if (!this.day) {
+				this.errorMsg = 'Please enter a date for the trip';
+				return;
+			}
+
+			if (new Date(this.day) <= new Date()) {
+				this.errorMsg = 'Date cannot be today or in the past';
+				return;
+			}
+
+			this.errorMsg = '';
+		},
+		resetForm() {
 			this.name = '';
 			this.location = '';
 			this.why = '';

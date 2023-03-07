@@ -1,91 +1,91 @@
 <template>
-	<AddTask v-if="showAddTask" @add-task="addTask" />
-	<NextTrip v-else :task="nextTrip" />
+	<AddTrip v-if="showAddTrip" @add-trip="addTrip" />
+	<NextTrip v-else :trip="nextTrip ? nextTrip : null" />
 
-	<Tasks
-		@toggle-bookedFlight="toggleReminder"
-		@delete-task="deleteTask"
-		:tasks="task"
+	<Trips
+		@toggle-bookedFlight="toggleBookedFlight"
+		@delete-trip="deleteTrip"
+		:trips="trips"
 	/>
 </template>
 
 <script>
-import Tasks from '../components/Tasks';
-import AddTask from '../components/AddTask';
-import NextTrip from '../components/NextTrip.vue';
+import Trips from '../components/Trips';
+import AddTrip from '../components/AddTrip';
+import NextTrip from '../components/NextTrip';
 
 export default {
 	name: 'Home',
 	props: {
-		showAddTask: Boolean,
+		showAddTrip: Boolean,
 	},
 	components: {
-		Tasks,
-		AddTask,
+		Trips,
+		AddTrip,
 		NextTrip,
 	},
 	data() {
 		return {
-			task: [],
+			trips: [],
 			nextTrip: Object,
 		};
 	},
 	methods: {
-		async addTask(newTask) {
-			const res = await fetch('http://localhost:5000/tasks', {
+		async addTrip(newTrip) {
+			const res = await fetch('http://localhost:5000/trips', {
 				method: 'POST',
 				headers: {
 					'Content-type': 'application/json',
 				},
-				body: JSON.stringify(newTask),
+				body: JSON.stringify(newTrip),
 			});
 
 			const data = await res.json();
 
-			this.task = [...this.task, data];
-			this.task.sort((a, b) => new Date(a.day) - new Date(b.day));
+			this.trips = [...this.trips, data];
+			this.trips.sort((a, b) => new Date(a.day) - new Date(b.day));
 
 			//Set the next trip
-			this.setNextTripObject(this.task, new Date());
+			this.setNextTripObject(this.trips, new Date());
 		},
-		async deleteTask(id) {
-			if (confirm('Are you sure?')) {
-				const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+		async deleteTrip(id) {
+			if (confirm('Are you sure you want to delete this trip?')) {
+				const res = await fetch(`http://localhost:5000/trips/${id}`, {
 					method: 'DELETE',
 				});
 
 				if (res.status === 200) {
-					this.task = this.task.filter((task) => task.id !== id);
+					this.trips = this.trips.filter((trip) => trip.id !== id);
 
-					await this.fetchTasks();
+					await this.fetchTrips();
 				} else {
 					alert('Error deleting task');
 				}
 			}
 		},
-		async toggleReminder(id) {
-			const taskToToggle = await this.fetchTask(id);
-			const updTask = {
-				...taskToToggle,
-				bookedFlight: !taskToToggle.bookedFlight,
+		async toggleBookedFlight(id) {
+			const tripToToggle = await this.fetchTrip(id);
+			const updTrip = {
+				...tripToToggle,
+				bookedFlight: !tripToToggle.bookedFlight,
 			};
 
-			const res = await fetch(`http://localhost:5000/tasks/${id}`, {
+			const res = await fetch(`http://localhost:5000/trips/${id}`, {
 				method: 'PUT',
 				headers: {
 					'Content-type': 'application/json',
 				},
-				body: JSON.stringify(updTask),
+				body: JSON.stringify(updTrip),
 			});
 
 			const data = await res.json();
 
-			this.task = this.task.map((task) =>
+			this.trips = this.trips.map((task) =>
 				task.id === id ? { ...task, bookedFlight: data.bookedFlight } : task
 			);
 		},
-		async fetchTasks() {
-			const res = await fetch('http://localhost:5000/tasks');
+		async fetchTrips() {
+			const res = await fetch('http://localhost:5000/trips');
 			const data = await res.json();
 
 			data.sort((a, b) => new Date(a.day) - new Date(b.day));
@@ -93,44 +93,44 @@ export default {
 
 			return data;
 		},
-		async fetchTask(id) {
-			const res = await fetch(`http://localhost:5000/tasks/${id}`);
+		async fetchTrip(id) {
+			const res = await fetch(`http://localhost:5000/trips/${id}`);
 			const data = await res.json();
 
 			return data;
 		},
-		async deleteExpiredTasks() {
+		async deleteExpiredTrips() {
 			const now = new Date();
 			now.setHours(0, 0, 0, 0); // Set the time component to 00:00:00:000
-			const expiredTasks = this.task.filter((task) => {
-				const tripDate = new Date(task.day);
+			const expiredTrips = this.trips.filter((trip) => {
+				const tripDate = new Date(trip.day);
+				tripDate.setDate(tripDate.getDate() + 1);
 				tripDate.setHours(0, 0, 0, 0); // Set the time component to 00:00:00:000
 				return tripDate <= now;
 			});
-			for (const task of expiredTasks) {
-				const res = await fetch(`http://localhost:5000/tasks/${task.id}`, {
+
+			for (const trip of expiredTrips) {
+				const res = await fetch(`http://localhost:5000/trips/${trip.id}`, {
 					method: 'DELETE',
 				});
 				if (res.status === 200) {
-					this.task = this.task.filter((t) => t.id !== task.id);
+					this.trips = this.trips.filter((t) => t.id !== trip.id);
 				} else {
-					console.log(`Error deleting task with id ${task.id}`);
+					console.log(`Error deleting trip with id ${trip.id}`);
 				}
 			}
 		},
 		setNextTripObject(data, currentDate) {
-			const closestTask = data.find((task) => new Date(task.day) > currentDate);
-			this.nextTrip = closestTask;
+			const closestTrip = data.find((trip) => new Date(trip.day) > currentDate);
+			this.nextTrip = closestTrip;
 		},
 	},
 	async created() {
-		this.task = await this.fetchTasks();
+		this.trips = await this.fetchTrips();
 
 		setInterval(() => {
-			this.deleteExpiredTasks();
+			this.deleteExpiredTrips();
 		}, 1000);
 	},
 };
 </script>
-
-<style scoped></style>

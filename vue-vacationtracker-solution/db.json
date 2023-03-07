@@ -1,12 +1,11 @@
 {
-  "tasks": [
+  "trips": [
     {
-      "name": "erwrwe",
-      "location": "werererwerwerwerwe",
-      "why": "",
-      "day": "2023-03-06",
-      "bookedFlight": false,
-      "id": 3
+      "name": "Family Summer Trip",
+      "location": "Orlando, Florida",
+      "day": "2023-03-11",
+      "bookedFlight": true,
+      "id": 1
     }
   ]
 }

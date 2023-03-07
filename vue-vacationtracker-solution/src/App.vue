@@ -1,11 +1,11 @@
 <template>
 	<div class="container">
 		<Header
-			@toggle-add-task="toggleAddTask"
+			@toggle-add-trip="toggleAddTrip"
 			title="Vacation Tracker"
-			:showAddTask="showAddTask"
+			:showAddTrip="showAddTrip"
 		/>
-		<router-view :showAddTask="showAddTask"></router-view>
+		<router-view :showAddTrip="showAddTrip"></router-view>
 		<Footer />
 	</div>
 </template>
@@ -19,12 +19,12 @@ export default {
 	components: { Header, Footer },
 	data() {
 		return {
-			showAddTask: false,
+			showAddTrip: false,
 		};
 	},
 	methods: {
-		toggleAddTask() {
-			this.showAddTask = !this.showAddTask;
+		toggleAddTrip() {
+			this.showAddTrip = !this.showAddTrip;
 		},
 	},
 };

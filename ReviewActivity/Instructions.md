@@ -80,7 +80,7 @@ Make sure to have the validation inside the getUsers() methods. You are only abl
 It's possible that most of the code for this done when reaching to this point. If not, make sure to have all the code completed and working.
 
 
-## YOU HAVE COMPLETED THIS REVIEW!!! Not to hard right :D
+## YOU HAVE COMPLETED THIS REVIEW!!! Not too hard right :D
 
 
 
